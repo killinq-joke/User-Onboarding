@@ -29,10 +29,10 @@ function NormalForm(props) {
     
 
     const validationSchema = Yup.object().shape({
-        name: Yup.string().min(3, 'Minimum 3 characters').required('Please enter your name'),
-        email: Yup.string().min(3, 'Minimum 3 characters').required('Please enter your email'),
-        password: Yup.string().min(7, 'password not long enough').required('Please enter a password'),
-        terms_of_service: Yup.boolean().oneOf([true], 'Field must be checked')
+        name: Yup.string().min(3, 'too short').required('please enter your name'),
+        email: Yup.string().email('put a valid email pls').required('please enter your email'),
+        password: Yup.string().min(7, 'too short').required('please enter a password'),
+        terms_of_service: Yup.boolean().oneOf([true], 'field must be checked')
       });
       
       const initialState = {
