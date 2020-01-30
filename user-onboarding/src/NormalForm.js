@@ -1,0 +1,81 @@
+import React from 'react';
+import * as Yup from 'yup';
+import { Formik, Form, Field, ErrorMessage} from 'formik';
+import axios from 'axios';
+
+function NormalForm() {
+
+    function handleSubmit(values, actions) {
+        console.log(values);
+        console.log(actions);
+
+        axios
+        .post('https://reqres.in/api/users/', values)
+        .then(res => {
+            console.log(res);
+            actions.resetForm();
+        })
+        .catch(e => console.log(e))
+        .finally(() => {
+            console.log('Axios request finished.');
+        });
+    }
+
+    const validationSchema = Yup.object().shape({
+        name: Yup.string().required('Please enter your name'),
+        email: Yup.string().required('Please enter your email'),
+        password: Yup.string().required('Please enter a password'),
+        terms_of_service: Yup.boolean()
+      });
+      
+      const initialState = {
+        name: '',
+        email: '',
+        password: '',
+        terms_of_service: false
+      }
+
+  return (
+      <div>
+          <Formik
+          onSubmit={handleSubmit}
+          initialValues={initialState}
+          validationSchema={validationSchema}
+          >
+              <Form>
+                  <label htmlFor="name">Name</label>
+                  <Field 
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your name here"/>
+                    <ErrorMessage name="name" component="div" className="error"/>
+                  <label htmlFor="email">Email</label>
+                  <Field 
+                    type="text"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email here"/>
+                    <ErrorMessage name="email" component="div" className="error"/>
+                  <label htmlFor="password">Password</label>
+                  <Field 
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password here"/>
+                    <ErrorMessage name="password" component="div" className="error"/>
+                  <label htmlFor="terms_of_service">Terms of Service</label>
+                  <Field 
+                    type="checkbox"
+                    id="terms_of_service"
+                    name="terms_of_service"/>
+                    <ErrorMessage name="terms_of_service" component="div" className="error"/>
+                    <button type="submit">submit</button>
+              </Form>
+              
+          </Formik>
+      </div> 
+  );
+}
+
+export default NormalForm;
