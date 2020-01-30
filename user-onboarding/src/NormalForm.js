@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage} from 'formik';
 import axios from 'axios';
 
 
-function NormalForm() {
+function NormalForm(props) {
+    
 
+    
+    console.log(props)
+    
     function handleSubmit(values, actions) {
         // console.log(values);
         // console.log(actions);
@@ -13,14 +17,16 @@ function NormalForm() {
         axios
         .post('https://reqres.in/api/users/', values)
         .then(res => {
-            console.log(res);
+            props.setUsers([...props.users, res.data]);
             actions.resetForm();
         })
         .catch(e => console.log(e))
         .finally(() => {
-            console.log('Axios request finished.');
+            // console.log('Axios request finished.');
         });
     }
+
+    
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().min(3, 'Minimum 3 characters').required('Please enter your name'),
