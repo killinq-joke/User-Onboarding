@@ -23,9 +23,9 @@ function NormalForm() {
     }
 
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required('Please enter your name'),
-        email: Yup.string().required('Please enter your email'),
-        password: Yup.string().required('Please enter a password'),
+        name: Yup.string().min(3, 'Minimum 3 characters').required('Please enter your name'),
+        email: Yup.string().min(3, 'Minimum 3 characters').required('Please enter your email'),
+        password: Yup.string().min(7, 'password not long enough').required('Please enter a password'),
         terms_of_service: Yup.boolean().oneOf([true], 'Field must be checked')
       });
       
